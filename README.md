@@ -1,4 +1,4 @@
-# Glow Up Morning
+# GRWM (Get Ready With Me)
 
 A pastel-pink VR "Get Ready With Me" game. Your alarm goes off and you have a few minutes to brush your teeth, wash your face, pick an outfit and take a mirror selfie before your big day.
 
@@ -32,5 +32,5 @@ Work in progress. Right now the project has the bedroom and bathroom built and f
 
 - Minimalist ArchViz Bedroom by Rad-Coders (Unity Asset Store)
 - Bathroom Set - Interior (Unity Asset Store)
-- Clothing packs: After Dark and Campus Comeback
-- Mannequin, alarm clock, toothbrush and toothpaste made in Blender for this project
+- Clothing packs: After Dark and Campus Comeback by Genies (Unity Asset Store)
+- Mannequin, her outfit, alarm clock, toothbrush and toothpaste made in Blender for this project
