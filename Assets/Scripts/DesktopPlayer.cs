@@ -15,7 +15,7 @@ public class DesktopPlayer : MonoBehaviour
     public bool desktopMode = true;
     public float lookSpeed = 0.15f;
     public float walkSpeed = 1.6f;
-    public float eyeHeight = 1.55f;   // no headset = no tracked height, so set it here
+    public float eyeHeight = 1.68f;   // no headset = no tracked height, so set it here
 
     Transform cam;
     DesktopHands hands;
@@ -24,6 +24,13 @@ public class DesktopPlayer : MonoBehaviour
 
     void Awake()
     {
+        if (!Application.isEditor)
+        {
+            // on the headset: real tracking, real hands, and no simulator fighting over the camera
+            desktopMode = false;
+            var simulator = GameObject.Find("XR Interaction Simulator");
+            if (simulator) simulator.SetActive(false);
+        }
         if (!desktopMode) { enabled = false; return; }
 
         body = GetComponent<CharacterController>();

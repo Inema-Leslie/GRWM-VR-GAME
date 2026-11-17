@@ -56,7 +56,7 @@ public class GlowHud : MonoBehaviour
         panel.layer = 5;   // UI: mirrors don't reflect it
         var canvas = panel.GetComponent<Canvas>();
         var rt = (RectTransform)panel.transform;
-        var desktop = FindFirstObjectByType<DesktopPlayer>();
+        var desktop = FindAnyObjectByType<DesktopPlayer>();
         RectTransform root;
         if (desktop && desktop.desktopMode)
         {

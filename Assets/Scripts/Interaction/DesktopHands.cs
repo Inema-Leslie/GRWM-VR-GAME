@@ -93,8 +93,10 @@ public class DesktopHands : MonoBehaviour
         grab.interactionLayers = heldLayers;
         foreach (var s in FindObjectsByType<XRSocketInteractor>())
         {
-            if (!s.isActiveAndEnabled || s.hasSelection || s.transform.IsChildOf(grab.transform)) continue;
-            if (!s.CanSelect((IXRSelectInteractable)grab)) continue;
+            if (!s.isActiveAndEnabled || s.transform.IsChildOf(grab.transform)) continue;
+            // body sockets take a new piece even when full: the old one goes back to the wardrobe
+            bool ok = s is OutfitSocket body ? body.Fits(grab) : !s.hasSelection && s.CanSelect((IXRSelectInteractable)grab);
+            if (!ok) continue;
             // flat distance, so shoes still reach the socket at her feet
             var a = s.GetAttachTransform(grab).position;
             float d = Vector2.Distance(new Vector2(a.x, a.z), new Vector2(c.x, c.z));
@@ -107,6 +109,13 @@ public class DesktopHands : MonoBehaviour
 
         if (best && grab.interactionManager)
         {
+            if (best.hasSelection)
+            {
+                var old = best.firstInteractableSelected;
+                grab.interactionManager.SelectExit((IXRSelectInteractor)best, old);
+                var prop = old.transform.GetComponent<ClothingProp>();
+                if (prop) prop.ReturnHome();
+            }
             grab.transform.position = best.GetAttachTransform(grab).position;
             grab.interactionManager.SelectEnter((IXRSelectInteractor)best, (IXRSelectInteractable)grab);
         }
