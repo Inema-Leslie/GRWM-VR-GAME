@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc2e53f5f7ac4cd4ebc49ecf1f95d42f, type: 3}
-  m_Name: MintTee
+  m_Name: CampusHoodie2
   m_EditorClassIdentifier: Assembly-CSharp::ClothingItem
-  itemName: Mint Tee
+  itemName: Campus Hoodie 2
   slot: 0
-  color: {r: 0.6, g: 0.92, b: 0.8, a: 1}
+  color: {r: 0.30395553, g: 0.21969067, b: 0.21674198, a: 1}
   styleTags:
-  - pastel
-  - sporty
+  - casual
+  - cute

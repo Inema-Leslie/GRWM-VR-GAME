@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc2e53f5f7ac4cd4ebc49ecf1f95d42f, type: 3}
-  m_Name: PinkTee
+  m_Name: AfterDarkShirt1
   m_EditorClassIdentifier: Assembly-CSharp::ClothingItem
-  itemName: Pink Tee
+  itemName: After Dark Shirt 1
   slot: 0
-  color: {r: 0.98, g: 0.55, b: 0.72, a: 1}
+  color: {r: 0.19373757, g: 0.18450429, b: 0.16456328, a: 1}
   styleTags:
-  - cute
-  - pastel
+  - night
