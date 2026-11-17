@@ -11,7 +11,9 @@ Work in progress. The morning routine is playable from start to finish:
 1. **Wake up**: the alarm clock rings and shakes until you tap it. The 5-minute timer starts then.
 2. **Brush your teeth**: put the toothpaste on the brush (it snaps into a socket on the bristles), then scrub near your mouth. Scrubbing faster fills the bar faster, and the controller buzzes while you brush.
 3. **Wash your face**: turn on the tap (pink knob), lean over the sink to splash, then dry off with the towel.
-4. **Pick an outfit**: take a top, a bottom and shoes from the dresser and put them on the mannequin. Each socket only takes its own type.
+4. **Get dressed**: pick a top, a bottom and shoes from the pink clothes rail and put them on. You start in pyjamas. Check the outfit in the mirror: the girl in the mirror is you, and you only see her there. Picking a new piece sends the old one back to the rail.
+
+The wardrobe holds the rest of the clothes (dresses and trousers). They're there to look at, you can't wear them yet.
 
 At the end you get 1 to 5 hearts based on steps finished, time left and how well the outfit matches the day's theme. The selfie and Mira's hints come next.
 
@@ -31,7 +33,7 @@ At the end you get 1 to 5 hearts based on steps finished, time left and how well
 5. Press Play. With **Desktop Mode** ticked on the XR Origin you can test without a headset:
    - hold the right mouse button to look around (or use the arrow keys)
    - WASD to walk, Shift to go faster
-   - left click to press things, pick them up and put them down (they snap into a socket if one is close)
+   - left click to press things, pick them up and put them down (they snap into a socket if one is close; clothes go straight on you)
    - hold Space to bring what you're holding to your face, or to lean in with empty hands
 
    Untick Desktop Mode to play in VR.
@@ -51,5 +53,5 @@ At the end you get 1 to 5 hearts based on steps finished, time left and how well
 
 - Minimalist ArchViz Bedroom by Rad-Coders (Unity Asset Store)
 - Bathroom Set - Interior (Unity Asset Store)
-- Clothing packs: After Dark and Campus Comeback by Genies (Unity Asset Store)
-- Mannequin, her outfit, alarm clock, toothbrush and toothpaste made in Blender for this project
+- Clothing packs: After Dark and Campus Comeback by Genies (Unity Asset Store), hung in the wardrobe and on the rail
+- The player's body, her fitted clothes, alarm clock, toothbrush and toothpaste made in Blender for this project; hangers and clothes rail made in code
