@@ -1,8 +1,9 @@
-// Glow Up Morning - temporary desktop controls for testing without a headset.
+// GRWM - temporary desktop controls for testing without a headset.
 // Sits on the XR Origin. While "Desktop Mode" is ticked it hides the VR controllers
 // and the XR simulator, and lets you play with mouse + keyboard:
 //   hold RIGHT mouse button + move mouse = look around (or use the arrow keys)
 //   W A S D = walk     Shift = walk faster
+//   LEFT click = press / pick up / put down     hold Space = bring it to your face, or lean in
 // Untick "Desktop Mode" (or remove this component) for the real VR build.
 
 using UnityEngine;
@@ -14,8 +15,10 @@ public class DesktopPlayer : MonoBehaviour
     public bool desktopMode = true;
     public float lookSpeed = 0.15f;
     public float walkSpeed = 1.6f;
+    public float eyeHeight = 1.55f;   // no headset = no tracked height, so set it here
 
     Transform cam;
+    DesktopHands hands;
     CharacterController body;
     float pitch, floorY;
 
@@ -37,12 +40,21 @@ public class DesktopPlayer : MonoBehaviour
             var t = FindChild(transform, n);
             if (t) t.gameObject.SetActive(false);
         }
+        hands = cam.gameObject.AddComponent<DesktopHands>();
+
         var sim = GameObject.Find("XR Interaction Simulator");
         if (sim) sim.SetActive(false);
     }
 
     void Update()
     {
+        // keep the eyes at standing height above the floor
+        // keep the eyes at standing height; Space with empty hands leans you in (over the sink)
+        var kb = Keyboard.current;
+        bool lean = kb != null && kb.spaceKey.isPressed && (hands == null || !hands.Holding);
+        float parentY = cam.parent ? cam.parent.position.y - transform.position.y : 0f;
+        cam.localPosition = new Vector3(0f, eyeHeight - parentY - (lean ? 0.15f : 0f), lean ? 0.35f : 0f);
+
         var mouse = Mouse.current;
         var keys = Keyboard.current;
         if (mouse == null || keys == null) return;
