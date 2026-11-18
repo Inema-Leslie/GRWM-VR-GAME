@@ -9,6 +9,8 @@ public class ClothingItem : ScriptableObject
     public ClothingSlot slot;
     public Color color = Color.white;
     public string[] styleTags = new string[0];
+    [Tooltip("Name of the version fitted to her body in Blender (Fit_<name>), if there is one.")]
+    public string fitName = "";
 
     public bool Matches(DayTheme theme)
     {

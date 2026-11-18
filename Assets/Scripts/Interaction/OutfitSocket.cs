@@ -12,6 +12,8 @@ public class OutfitSocket : XRSocketInteractor
     public Color pajamaColor = new Color(0.80f, 0.82f, 0.98f);
     [Tooltip("Accessories have no fitted mesh: the prop itself sits on your head, on the mirror-only layer.")]
     public bool keepPropVisible;
+    [Tooltip("Tops fitted to her body in Blender; the one matching the worn item is shown.")]
+    public System.Collections.Generic.List<Renderer> fitted = new System.Collections.Generic.List<Renderer>();
 
     public ClothingItem Worn { get; private set; }
 
@@ -38,6 +40,13 @@ public class OutfitSocket : XRSocketInteractor
         if (slot == ClothingSlot.Shoes) { wornMesh.enabled = false; return; }
         Tint(pajamaColor);
         wornMesh.enabled = true;
+    }
+
+    Renderer FittedFor(ClothingItem item)
+    {
+        if (item == null || string.IsNullOrEmpty(item.fitName)) return null;
+        foreach (var f in fitted) if (f && f.name == "Fit_" + item.fitName) return f;
+        return null;
     }
 
     void Tint(Color c)
@@ -73,7 +82,10 @@ public class OutfitSocket : XRSocketInteractor
         if (p == null) return;
         Worn = p.item;
         ShowProp(p, false, keepPropVisible);
-        if (wornMesh) { Tint(p.item.color); wornMesh.enabled = true; }
+        var fit = FittedFor(p.item);
+        foreach (var f in fitted) if (f) f.enabled = f == fit;
+        if (fit) { if (wornMesh) wornMesh.enabled = false; }   // the real top, fitted to her
+        else if (wornMesh) { Tint(p.item.color); wornMesh.enabled = true; }
     }
 
     protected override void OnSelectExited(SelectExitEventArgs args)
@@ -82,6 +94,7 @@ public class OutfitSocket : XRSocketInteractor
         var p = args.interactableObject.transform.GetComponent<ClothingProp>();
         if (p) ShowProp(p, true, keepPropVisible);
         Worn = null;
+        foreach (var f in fitted) if (f) f.enabled = false;
         ShowEmpty();
     }
 

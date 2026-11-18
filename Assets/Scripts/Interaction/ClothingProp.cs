@@ -36,7 +36,9 @@ public class ClothingProp : MonoBehaviour
         var cam = Camera.main;
         if (item == null || cam == null || grab == null || grab.isSelected) yield break;
 
-        Vector3 p = transform.position, eyes = cam.transform.position;
+        // measure from the middle of the garment, not the hanger hook: a long top held against
+        // your chest has its hook up at eye level
+        Vector3 p = Middle(), eyes = cam.transform.position;
         bool close = item.slot == ClothingSlot.Head
             ? Vector3.Distance(p, eyes) < 0.45f
             : new Vector2(p.x - eyes.x, p.z - eyes.z).magnitude < 0.6f && p.y < eyes.y && p.y > eyes.y - 1.6f;
@@ -56,6 +58,18 @@ public class ClothingProp : MonoBehaviour
             manager.SelectEnter((IXRSelectInteractor)socket, (IXRSelectInteractable)grab);
             yield break;
         }
+    }
+
+    Vector3 Middle()
+    {
+        bool any = false;
+        var b = new Bounds(transform.position, Vector3.zero);
+        foreach (var r in GetComponentsInChildren<Renderer>())
+        {
+            if (r.name == "Hanger") continue;
+            if (!any) { b = r.bounds; any = true; } else b.Encapsulate(r.bounds);
+        }
+        return any ? b.center : transform.position;
     }
 
     public void MarkReleased() => LastReleased = Time.time;   // desktop hands don't select, so they call this
