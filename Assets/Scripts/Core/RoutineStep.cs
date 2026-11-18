@@ -6,6 +6,8 @@ public abstract class RoutineStep : MonoBehaviour, IRoutineStep
 {
     public string stepName = "Step";
     [TextArea] public string hint = "";
+    [Tooltip("Where this step happens; Mirror's hint bubble floats above it.")]
+    public Transform station;
 
     public string StepName => stepName;
     public virtual string Hint => hint;
@@ -32,6 +34,9 @@ public abstract class RoutineStep : MonoBehaviour, IRoutineStep
 
     protected abstract void OnBegin();
     protected virtual void OnEnd() { }
+
+    // editor testing only: finish this step straight away
+    public void DebugSkip() { if (IsActive && !IsComplete) CompleteStep(); }
 
     protected void CompleteStep()
     {

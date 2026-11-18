@@ -8,6 +8,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 // Desktop stand-in for VR hands (added by DesktopPlayer).
 //   Left click = press a button / pick up / put down (snaps into a socket if one is close)
 //   Hold Space = bring what you're holding to your face (brushing, towel), or lean in with empty hands
+//   E = use what you're holding (pump the bottle, take the selfie)
 public class DesktopHands : MonoBehaviour
 {
     public float reach = 3f;
@@ -34,6 +35,8 @@ public class DesktopHands : MonoBehaviour
         if (mouse == null || keys == null || cam == null) return;
 
         if (held) Carry(keys.spaceKey.isPressed);
+        if (held && keys.eKey.wasPressedThisFrame)          // "use" what you hold (pump, phone shutter)
+            foreach (var a in held.GetComponentsInChildren<IActivatable>()) a.Activate();
 
         if (mouse.leftButton.wasPressedThisFrame)
         {
@@ -68,7 +71,9 @@ public class DesktopHands : MonoBehaviour
         grab.interactionLayers = 0;              // sockets leave it alone while we carry it
         SetColliders(false);
 
-        relRot = Quaternion.Inverse(cam.transform.rotation) * grab.transform.rotation;
+        var upright = grab.GetComponent<HoldUpright>();
+        relRot = upright ? Quaternion.Euler(upright.euler)
+                         : Quaternion.Inverse(cam.transform.rotation) * grab.transform.rotation;
         localCenter = grab.transform.InverseTransformPoint(Center(grab.transform));
     }
 
@@ -91,6 +96,8 @@ public class DesktopHands : MonoBehaviour
         XRSocketInteractor best = null;
         float bestD = snapRadius;
         grab.interactionLayers = heldLayers;
+        var released = grab.GetComponent<ClothingProp>();
+        if (released) released.MarkReleased();
         foreach (var s in FindObjectsByType<XRSocketInteractor>())
         {
             if (!s.isActiveAndEnabled || s.transform.IsChildOf(grab.transform)) continue;

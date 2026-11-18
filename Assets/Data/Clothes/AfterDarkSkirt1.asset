@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClothingItem
   itemName: After Dark Skirt 1
   slot: 1
-  color: {r: 0.11243755, g: 0.11345248, b: 0.1268065, a: 1}
+  color: {r: 0.11215799, g: 0.11325334, b: 0.12681033, a: 1}
   styleTags:
   - night
   - classic

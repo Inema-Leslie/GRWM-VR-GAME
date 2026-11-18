@@ -16,12 +16,18 @@ public class WashFaceStep : RoutineStep
     float splash, dry;
     bool running;
     ParticleSystem water;
+    AudioSource waterSound;
     Camera cam;
 
     void Start()
     {
         cam = Camera.main;
         water = SparkleFX.MakeWater(spout);
+        waterSound = spout.gameObject.AddComponent<AudioSource>();
+        waterSound.clip = AudioFX.Water;
+        waterSound.loop = true;
+        waterSound.spatialBlend = 1f;
+        waterSound.volume = 0.5f;
         tap.Pressed += ToggleWater;   // the tap works any time, not just during this step
     }
 
@@ -29,7 +35,7 @@ public class WashFaceStep : RoutineStep
     {
         running = !running;
         if (!water) return;
-        if (running) water.Play(); else water.Stop();
+        if (running) { water.Play(); waterSound.Play(); } else { water.Stop(); waterSound.Stop(); }
     }
 
     public override float Progress => IsComplete ? 1f :

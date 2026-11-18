@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClothingItem
   itemName: Campus Hoodie 2
   slot: 0
-  color: {r: 0.30395553, g: 0.21969067, b: 0.21674198, a: 1}
+  color: {r: 0.30353817, g: 0.21921195, b: 0.21628627, a: 1}
   styleTags:
   - casual
   - cute

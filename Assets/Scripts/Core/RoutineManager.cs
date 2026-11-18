@@ -26,7 +26,7 @@ public class RoutineManager : MonoBehaviour
 
     void Start()
     {
-        if (timer) timer.TimeUp += Finish;
+        if (timer) timer.TimeUp += OnTimeUp;
         foreach (var s in steps) s.Completed += OnStepDone;
         StartStep(0);
     }
@@ -40,11 +40,25 @@ public class RoutineManager : MonoBehaviour
         Current.Begin();
     }
 
+    public bool TimedOut { get; private set; }
+
+    // GDD: running out of time skips straight to the selfie (with a lower score), never a fail screen
+    void OnTimeUp()
+    {
+        int selfie = steps.FindIndex(s => s is SelfieStep);
+        if (selfie < 0 || CurrentIndex >= selfie) { if (selfie < 0) Finish(); return; }
+        TimedOut = true;
+        if (Current && !Current.IsComplete) Current.Abort();
+        StartStep(selfie);
+    }
+
     void OnStepDone(IRoutineStep step)
     {
         if (Finished) return;
         CompletedCount++;
         StepCompleted?.Invoke((RoutineStep)step);
+        var cam = Camera.main;
+        if (cam) AudioFX.Play(AudioFX.Chime, cam.transform.position, 0.5f);
         // the morning rush starts once you're out of bed
         if (CurrentIndex == 0 && timer && !timer.Running) timer.StartTimer(theme ? theme.timeLimit : 300f);
         StartStep(CurrentIndex + 1);

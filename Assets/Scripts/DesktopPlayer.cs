@@ -85,6 +85,17 @@ public class DesktopPlayer : MonoBehaviour
             cam.localRotation = Quaternion.Euler(pitch, 0f, 0f);
         }
 
+        // quick travel: number keys jump to the teleport spots
+        for (int i = 0; i < Spots.Length; i++)
+            if (keys[Key.Digit1 + i].wasPressedThisFrame) JumpTo(Spots[i]);
+
+        // editor testing: N skips the current step
+        if (Application.isEditor && keys.nKey.wasPressedThisFrame)
+        {
+            var routine = FindAnyObjectByType<RoutineManager>();
+            if (routine != null && routine.Current != null) routine.Current.DebugSkip();
+        }
+
         // walk: WASD relative to where you're facing
         Vector3 input = new Vector3(
             (keys.dKey.isPressed ? 1 : 0) - (keys.aKey.isPressed ? 1 : 0), 0f,
@@ -101,6 +112,21 @@ public class DesktopPlayer : MonoBehaviour
             transform.position = new Vector3(transform.position.x, floorY, transform.position.z);
             body.enabled = true;
         }
+    }
+
+    static readonly string[] Spots =
+        { "PlayerStart", "Teleport_Bed", "Teleport_Sink", "Teleport_Vanity", "Teleport_Wardrobe", "Teleport_Rail", "Teleport_Mirror" };
+
+    void JumpTo(string marker)
+    {
+        var m = GameObject.Find(marker);
+        if (m == null) return;
+        body.enabled = false;
+        transform.SetPositionAndRotation(new Vector3(m.transform.position.x, floorY, m.transform.position.z),
+                                         Quaternion.Euler(0f, m.transform.eulerAngles.y, 0f));
+        body.enabled = true;
+        pitch = 0f;
+        cam.localRotation = Quaternion.identity;
     }
 
     static Transform FindChild(Transform root, string name)

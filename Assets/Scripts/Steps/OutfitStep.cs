@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Day 4: dress the mannequin - one top, one bottom, one pair of shoes.
+// Day 4: get dressed (top, bottom, shoes) - also used for the accessory step (head).
 public class OutfitStep : RoutineStep
 {
     public List<OutfitSocket> sockets = new List<OutfitSocket>();
+    public string hintPrefix = "Put on: ";
+    [Tooltip("Add the missing slots after the prefix (off for a plain sentence).")]
+    public bool listSlots = true;
 
     public List<ClothingItem> Outfit
     {
@@ -24,7 +27,7 @@ public class OutfitStep : RoutineStep
         {
             var missing = new List<string>();
             foreach (var s in sockets) if (s && !s.Worn) missing.Add(s.slot.ToString().ToLower());
-            return missing.Count == 0 ? "Looking cute!" : "Dress the mannequin: " + string.Join(", ", missing);
+            return missing.Count == 0 ? "Looking cute!" : (listSlots ? hintPrefix + string.Join(", ", missing) : hintPrefix);
         }
     }
 

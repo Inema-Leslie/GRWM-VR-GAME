@@ -10,6 +10,8 @@ public class OutfitSocket : XRSocketInteractor
     public ClothingSlot slot;
     public Renderer wornMesh;
     public Color pajamaColor = new Color(0.80f, 0.82f, 0.98f);
+    [Tooltip("Accessories have no fitted mesh: the prop itself sits on your head, on the mirror-only layer.")]
+    public bool keepPropVisible;
 
     public ClothingItem Worn { get; private set; }
 
@@ -39,8 +41,18 @@ public class OutfitSocket : XRSocketInteractor
         wornMesh.SetPropertyBlock(block);
     }
 
-    public override bool CanHover(IXRHoverInteractable i) => base.CanHover(i) && Fits(i);
-    public override bool CanSelect(IXRSelectInteractable i) => base.CanSelect(i) && Fits(i);
+    // only clothes you're holding (or just let go of) go on, so walking past the rail doesn't dress you
+    public override bool CanHover(IXRHoverInteractable i) => base.CanHover(i) && Fits(i) && InHand(i);
+    public override bool CanSelect(IXRSelectInteractable i) => base.CanSelect(i) && Fits(i) && (IsSelecting(i) || InHand(i));
+
+    static bool InHand(IXRInteractable i)
+    {
+        if (i is IXRSelectInteractable s)
+            foreach (var x in s.interactorsSelecting)
+                if (!(x is XRSocketInteractor)) return true;
+        var p = i.transform.GetComponent<ClothingProp>();
+        return p && Time.time - p.LastReleased < 0.75f;
+    }
 
     public bool Fits(IXRInteractable i)
     {
@@ -54,7 +66,7 @@ public class OutfitSocket : XRSocketInteractor
         var p = args.interactableObject.transform.GetComponent<ClothingProp>();
         if (p == null) return;
         Worn = p.item;
-        ShowProp(p, false);
+        ShowProp(p, false, keepPropVisible);
         if (wornMesh) { Tint(p.item.color); wornMesh.enabled = true; }
     }
 
@@ -62,16 +74,24 @@ public class OutfitSocket : XRSocketInteractor
     {
         base.OnSelectExited(args);
         var p = args.interactableObject.transform.GetComponent<ClothingProp>();
-        if (p) ShowProp(p, true);
+        if (p) ShowProp(p, true, keepPropVisible);
         Worn = null;
         ShowEmpty();
     }
 
     // while worn the hanger rides along invisibly; its colliders turn into triggers so they
     // don't bump your body, but a VR hand can still grab it to take it off
-    static void ShowProp(ClothingProp p, bool show)
+    static void ShowProp(ClothingProp p, bool show, bool keepVisible)
     {
-        foreach (var r in p.GetComponentsInChildren<Renderer>()) r.enabled = show;
         foreach (var c in p.GetComponentsInChildren<Collider>()) c.isTrigger = !show;
+        if (keepVisible)
+        {
+            // on your head: only mirrors see it (same layer as your body)
+            int layer = show ? 0 : LayerMask.NameToLayer("Avatar");
+            if (layer < 0) layer = 0;
+            foreach (var t in p.GetComponentsInChildren<Transform>()) t.gameObject.layer = layer;
+            return;
+        }
+        foreach (var r in p.GetComponentsInChildren<Renderer>()) r.enabled = show;
     }
 }

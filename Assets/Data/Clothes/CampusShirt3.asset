@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClothingItem
   itemName: Campus Shirt 3
   slot: 0
-  color: {r: 0.4763712, g: 0.39419413, b: 0.378719, a: 1}
+  color: {r: 0.47597316, g: 0.39411, b: 0.37790316, a: 1}
   styleTags:
   - casual
   - cute

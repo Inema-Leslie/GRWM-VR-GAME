@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ClothingItem
   itemName: After Dark Shirt 2
   slot: 0
-  color: {r: 0.3734249, g: 0.325149, b: 0.19287646, a: 1}
+  color: {r: 0.37270412, g: 0.32469714, b: 0.19377261, a: 1}
   styleTags:
   - night

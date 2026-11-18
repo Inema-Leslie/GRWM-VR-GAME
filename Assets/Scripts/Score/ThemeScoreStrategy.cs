@@ -8,7 +8,7 @@ public class ThemeScoreStrategy : IScoreStrategy
         if (c.theme == null || c.outfit == null || c.outfit.Count == 0) return 0f;
         int hits = 0;
         foreach (var item in c.outfit) if (item && item.Matches(c.theme)) hits++;
-        return hits / 3f;   // top, bottom, shoes
+        return hits / (float)Mathf.Max(3, c.outfit.Count);   // top, bottom, shoes (+ accessory)
     }
 
     public int Hearts(ScoreContext c)
