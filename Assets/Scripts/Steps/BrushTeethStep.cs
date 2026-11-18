@@ -21,7 +21,7 @@ public class BrushTeethStep : RoutineStep
 
     public override string Hint => HasPaste
         ? "Brush near your mouth! (desktop: hold Space)"
-        : "Pick up the toothpaste and put it on the brush";
+        : "Hold the brush, then touch the toothpaste tube to the bristles";
 
     protected override void OnBegin()
     {

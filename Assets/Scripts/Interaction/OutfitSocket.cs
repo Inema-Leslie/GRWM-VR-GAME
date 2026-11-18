@@ -18,6 +18,12 @@ public class OutfitSocket : XRSocketInteractor
     static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
     MaterialPropertyBlock block;
 
+    // every body socket, so a released piece of clothing can find where it goes
+    public static readonly System.Collections.Generic.List<OutfitSocket> All = new System.Collections.Generic.List<OutfitSocket>();
+
+    protected override void OnEnable() { base.OnEnable(); if (!All.Contains(this)) All.Add(this); }
+    protected override void OnDisable() { All.Remove(this); base.OnDisable(); }
+
     protected override void Awake()
     {
         base.Awake();
