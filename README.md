@@ -31,10 +31,7 @@ The wardrobe holds the rest of the clothes (dresses and trousers). They're there
 
 1. Clone the repo and open the folder in Unity Hub.
 2. Open `Assets/Scenes/SampleScene`.
-3. If the room is missing, use the menu **Glow Up > Build Apartment** to rebuild it.
-4. **Glow Up > View** has quick camera angles for checking the layout.
-5. **Glow Up > Optimize for Quest** reapplies the texture, material and URP settings for the headset (see the Performance section of the GDD).
-6. Press Play. With **Desktop Mode** ticked on the XR Origin you can test without a headset:
+3. Press Play. With **Desktop Mode** ticked on the XR Origin you can test without a headset:
    - hold the right mouse button to look around (or use the arrow keys)
    - WASD to walk, Shift to go faster
    - left click to press things, pick them up and put them down (they snap into a socket if one is close; clothes go straight on you)
@@ -47,8 +44,6 @@ The wardrobe holds the rest of the clothes (dresses and trousers). They're there
 
 ## Project layout
 
-- `Assets/Editor/QuestOptimizer.cs` applies the Quest performance settings
-- `Assets/Editor/ApartmentBuilder.cs` builds the bedroom and bathroom (walls, furniture, teleport points) and wires up the routine
 - `Assets/Scripts/Core/` has the routine: `IRoutineStep`, the abstract `RoutineStep`, `RoutineManager` and `GameTimer`
 - `Assets/Scripts/Steps/` has one class per step (alarm, teeth, face, skincare, outfit, selfie)
 - `Assets/Scripts/Interaction/` has the sockets, pressable and usable items, respawning, sounds and the desktop test hands
