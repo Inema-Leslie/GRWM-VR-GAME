@@ -9,10 +9,10 @@ Made in Unity 6 for Meta Quest as an individual AR/VR course project.
 The whole morning routine is playable from start to finish:
 
 1. **Wake up**: the alarm clock rings and shakes until you tap it. The 5-minute timer starts then.
-2. **Brush your teeth**: put the toothpaste on the brush (it snaps into a socket on the bristles), then scrub near your mouth. Scrubbing faster fills the bar faster, and the controller buzzes while you brush.
+2. **Brush your teeth**: hold the brush in one hand and touch the toothpaste tube to the bristles, then scrub near your mouth. Scrubbing faster fills the bar faster, and the controller buzzes while you brush.
 3. **Wash your face**: turn on the tap (pink knob), lean over the sink to splash, then dry off with the towel.
 4. **Skincare**: pump the moisturiser twice, then pat it on your face.
-5. **Get dressed**: pick a top, a bottom and shoes from the pink clothes rail and put them on. You start in pyjamas. The girl in the mirror is you, and you only see her there. There's a full-length mirror next to the rail so you can check the outfit. Picking a new piece sends the old one back to the rail.
+5. **Get dressed**: pick a top, a bottom and shoes from the pink clothes rail. Hold each one against your body and let go to put it on. You start in pyjamas. The girl in the mirror is you, and you only see her there. There's a full-length mirror next to the rail so you can check the outfit. Picking a new piece sends the old one back to the rail.
 6. **Add an accessory**: grab a bow, sun hat or beret from the shelf above the rail and put it on your head.
 7. **Selfie**: grab the phone, face a mirror and take the photo.
 
