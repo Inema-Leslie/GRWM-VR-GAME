@@ -190,7 +190,7 @@ MonoBehaviour:
     - line: '|   submitAnalytics: 1'
     - line: '|   usePlayerLog: 1'
     - line: '|   dedicatedServerOptimizations: 1'
-    - line: '|   bakeCollisionMeshes: 0'
+    - line: '|   bakeCollisionMeshes: 1'
     - line: '|   forceSingleInstance: 0'
     - line: '|   useFlipModelSwapchain: 1'
     - line: '|   resizableWindow: 0'
@@ -278,7 +278,7 @@ MonoBehaviour:
     - line: '|   AndroidPreferredInstallLocation: 1'
     - line: '|   AndroidPreferredDataLocation: 1'
     - line: '|   aotOptions: '
-    - line: '|   stripEngineCode: 1'
+    - line: '|   stripEngineCode: 0'
     - line: '|   iPhoneStrippingLevel: 0'
     - line: '|   iPhoneScriptCallOptimization: 0'
     - line: '|   ForceInternetPermission: 0'
@@ -286,7 +286,7 @@ MonoBehaviour:
     - line: '|   CreateWallpaper: 0'
     - line: '|   androidSplitApplicationBinary: 0'
     - line: '|   keepLoadedShadersAlive: 0'
-    - line: '|   StripUnusedMeshComponents: 0'
+    - line: '|   StripUnusedMeshComponents: 1'
     - line: '|   strictShaderVariantMatching: 0'
     - line: '|   VertexChannelCompressionMask: 4054'
     - line: '|   iPhoneSdkVersion: 988'
@@ -1013,9 +1013,9 @@ MonoBehaviour:
         m_ExportAsGoogleAndroidProject: 0
         m_DebugSymbolLevel: 1
         m_DebugSymbolFormat: 5
-        m_CurrentDeploymentTargetId: 1WMHHB6E7R2151
+        m_CurrentDeploymentTargetId: __builtin__target_default
         m_BuildType: 2
-        m_LinkTimeOptimization: 0
+        m_LinkTimeOptimization: 1
         m_BuildAppBundle: 0
         m_ProfileableShell: 0
         m_IPAddressToConnect: 
@@ -1032,7 +1032,7 @@ MonoBehaviour:
   m_Script: {fileID: 15010, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: Quality Settings
   m_EditorClassIdentifier: UnityEditor.dll::UnityEditor.Build.Profile.BuildProfileQualitySettings
-  m_DefaultQualityLevel: Meta Quest (Build Profile)
+  m_DefaultQualityLevel: Meta Quest Build Profile
   m_QualityLevels:
   - Mobile
-  - Meta Quest (Build Profile)
+  - Meta Quest Build Profile
