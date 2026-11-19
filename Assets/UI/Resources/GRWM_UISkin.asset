@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c4b30dc29d76e4faec0f57a586bca4, type: 3}
+  m_Name: GRWM_UISkin
+  m_EditorClassIdentifier: Assembly-CSharp::UISkin
+  round: {fileID: 21300000, guid: 11e237ad7361ad845886aec7e85cc9c0, type: 3}
+  vanity: {fileID: 21300000, guid: 55a12180a4bb04a43a676fe72c32aa0e, type: 3}
+  icons:
+  - {fileID: 21300000, guid: 56b7454c648c11744a60f132d2c7726d, type: 3}
+  - {fileID: 21300000, guid: c953a74b2645c9a44bfc6e65e23a5c8a, type: 3}
+  - {fileID: 21300000, guid: 4da365c1c265ebc4daff7fc1829dddb2, type: 3}
+  - {fileID: 21300000, guid: 266b56309185ba94aab7a3e06dd97f13, type: 3}
+  - {fileID: 21300000, guid: fffcd304ce3a375438aae6b23450ad80, type: 3}
+  - {fileID: 21300000, guid: 32883cf6a2c4bb043abf3187cd926711, type: 3}
+  - {fileID: 21300000, guid: 8f765c45bdfd9ae4a82c2d73855885ce, type: 3}
+  - {fileID: 21300000, guid: e583e2450129cea46ad631aac812f078, type: 3}
+  - {fileID: 21300000, guid: 142971ce80738794a928c880246e7039, type: 3}
+  - {fileID: 21300000, guid: 13b6e51326c3a1243ab378c80f695fac, type: 3}
+  - {fileID: 21300000, guid: c6067c29ff2996c498c774066da09b19, type: 3}
+  - {fileID: 21300000, guid: 6a3fd91e6cce0fa45ae35bdb8e62254e, type: 3}
+  - {fileID: 21300000, guid: 502bc04a62030a6489f3aee84cc61e02, type: 3}
+  title: {fileID: 11400000, guid: 7582bf3aefd4e3e4cab4a2795981291a, type: 2}
+  medium: {fileID: 11400000, guid: bfde00b8b7c56a24b841c1f763b79ff4, type: 2}
+  body: {fileID: 11400000, guid: 4988fb740bf397f4f8068799d37fd311, type: 2}
+  caps: {fileID: 11400000, guid: e81d70364b045f44b8830a0a9dfac1bd, type: 2}

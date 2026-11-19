@@ -13,4 +13,5 @@ public interface IScoreStrategy
 {
     int Hearts(ScoreContext c);           // 1..5
     float ThemeMatch(ScoreContext c);     // 0..1
+    int GlowScore(ScoreContext c);        // 0..100, for the big reveal
 }

@@ -14,8 +14,12 @@ public class RoutineManager : MonoBehaviour
     public int CurrentIndex { get; private set; } = -1;
     public int CompletedCount { get; private set; }
     public bool Finished { get; private set; }
+    public bool Started { get; private set; }
+    [Tooltip("Hold the morning until \"Let's get ready!\" is pressed on the landing page.")]
+    public bool waitForLanding = true;
     public int Hearts { get; private set; }
 
+    public event Action DayStarted;
     public event Action<RoutineStep> StepStarted;
     public event Action<RoutineStep> StepCompleted;
     public event Action<int> DayFinished;
@@ -28,6 +32,15 @@ public class RoutineManager : MonoBehaviour
     {
         if (timer) timer.TimeUp += OnTimeUp;
         foreach (var s in steps) s.Completed += OnStepDone;
+        if (!waitForLanding || FindAnyObjectByType<LandingScreen>() == null) BeginDay();
+    }
+
+    // the landing page's "Let's get ready!" button
+    public void BeginDay()
+    {
+        if (Started) return;
+        Started = true;
+        DayStarted?.Invoke();
         StartStep(0);
     }
 

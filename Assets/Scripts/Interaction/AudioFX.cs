@@ -20,7 +20,7 @@ public static class AudioFX
 
     public static void Play(AudioClip clip, Vector3 at, float volume = 0.7f)
     {
-        if (clip) AudioSource.PlayClipAtPoint(clip, at, volume);
+        if (clip && UIPrefs.SoundEffects) AudioSource.PlayClipAtPoint(clip, at, volume);
     }
 
     static float Tone(float t, float hz, float start, float len)

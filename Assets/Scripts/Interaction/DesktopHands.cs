@@ -47,6 +47,7 @@ public class DesktopHands : MonoBehaviour
 
     void Click(Vector2 screen)
     {
+        if (UIKit.ClickPanel(screen, cam)) return;         // a menu button, not something behind it
         var ray = cam.ScreenPointToRay(screen);
         if (!FirstHit(ray, reach, out var hit)) return;
 
