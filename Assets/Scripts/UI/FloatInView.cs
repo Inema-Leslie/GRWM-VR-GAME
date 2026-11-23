@@ -1,57 +1,48 @@
 using UnityEngine;
 
-// Keeps a panel in front of you without glueing it to your face: it only drifts back
-// when you look well away from it, and never ends up inside a wall.
+// Puts a panel in front of you and leaves it there, like a real sign in the room.
+// It never glides after your head (that reads as the world drifting and makes people sick).
+// Only if you turn right away from it, or walk off, does it pop back in front of you.
 public class FloatInView : MonoBehaviour
 {
     public float distance = 1.3f;
     public float below = 0.08f;          // a touch under eye level reads comfortably
-    public float lazyAngle = 40f;
+    public float lostAngle = 75f;        // how far you turn before it reappears in front of you
+    public float settleSeconds = 1.5f;   // VR tracking takes a moment to start; keep re-placing until then
 
     Transform cam;
-    Vector3 target;
-    bool placed;
+    float born;
+    Vector3 snappedFrom;
 
-    void Start() => Snap();
+    void OnEnable()
+    {
+        born = Time.time;
+        Snap();
+    }
 
     public void Snap()
     {
-        cam = Camera.main ? Camera.main.transform : null;
+        if (cam == null) cam = Camera.main ? Camera.main.transform : null;
         if (cam == null) return;
-        target = Spot();
-        transform.position = target;
-        Face();
-        placed = true;
-    }
-
-    Vector3 Spot()
-    {
         var f = cam.forward; f.y = 0f;
         if (f.sqrMagnitude < 0.01f) f = cam.up;
         f.Normalize();
         float d = MiraHints.ClearDistance(cam.position, f, distance);
         var p = cam.position + f * d;
         p.y = cam.position.y - below;
-        return p;
-    }
-
-    void Face()
-    {
-        var away = transform.position - cam.position; away.y = 0f;
-        if (away.sqrMagnitude > 0.0001f) transform.rotation = Quaternion.LookRotation(away);
+        transform.SetPositionAndRotation(p, Quaternion.LookRotation(f));
+        snappedFrom = cam.position;
     }
 
     void LateUpdate()
     {
-        if (!placed) { Snap(); return; }
-        if (cam == null) return;
+        if (cam == null) { Snap(); return; }
+        // at start the headset's tracking can kick the camera to its real height a moment later
+        if (Time.time - born < settleSeconds && (cam.position - snappedFrom).sqrMagnitude > 0.04f) { Snap(); return; }
+
         var to = transform.position - cam.position; to.y = 0f;
         var f = cam.forward; f.y = 0f;
-        // in VR the head only gets tracked a moment after start; also re-center if you walked far off
-        float dy = Mathf.Abs(transform.position.y - (cam.position.y - below));
-        if (Vector3.Angle(to, f) > lazyAngle || to.magnitude > distance * 2.2f || to.magnitude < 0.35f || dy > 0.25f) target = Spot();
-        float k = UIPrefs.GentleMotion ? 2f : 5f;
-        transform.position = Vector3.Lerp(transform.position, target, 1f - Mathf.Exp(-Time.deltaTime * k));
-        Face();
+        bool lost = Vector3.Angle(to, f) > lostAngle || to.magnitude > distance * 2.5f || to.magnitude < 0.3f;
+        if (lost) Snap();   // a clean pop, no sliding
     }
 }

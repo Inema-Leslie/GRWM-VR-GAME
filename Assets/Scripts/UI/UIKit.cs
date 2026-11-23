@@ -43,7 +43,19 @@ public static class UIKit
     public static bool PointerOverPanel(Vector2 screen, Camera cam)
     {
         foreach (var p in panels)
-            if (p && p.gameObject.activeInHierarchy && RectTransformUtility.RectangleContainsScreenPoint(p, screen, cam)) return true;
+        {
+            if (!p || !p.gameObject.activeInHierarchy) continue;
+            var c = p.GetComponent<Canvas>();
+            var eye = c && c.renderMode == RenderMode.ScreenSpaceOverlay ? null : cam;
+            // the overlay HUD fills the screen; only its card counts, so test the children
+            if (eye == null)
+            {
+                foreach (var g in p.GetComponentsInChildren<Graphic>())
+                    if (g.raycastTarget && RectTransformUtility.RectangleContainsScreenPoint(g.rectTransform, screen, null)) return true;
+                continue;
+            }
+            if (RectTransformUtility.RectangleContainsScreenPoint(p, screen, eye)) return true;
+        }
         return false;
     }
 
@@ -73,16 +85,26 @@ public static class UIKit
         rt.localScale = Vector3.one * metersPerPixel;
         var scaler = go.AddComponent<CanvasScaler>();
         scaler.dynamicPixelsPerUnit = 3f;
-        if (interactive)
-        {
-            go.AddComponent<GraphicRaycaster>();               // mouse (desktop testing)
-            go.AddComponent<TrackedDeviceGraphicRaycaster>();  // VR controller rays
-            panels.Add(rt);
-        }
+        if (interactive) MakeInteractive(canvas);
         return rt;
     }
 
     // one EventSystem driven by XRUIInputModule, so both controller rays and the mouse can press buttons
+    // lets a canvas's buttons be pressed by the controller rays and (desktop testing) the mouse
+    public static void MakeInteractive(Canvas canvas)
+    {
+        EnsureEventSystem();
+        if (!canvas.GetComponent<GraphicRaycaster>()) canvas.gameObject.AddComponent<GraphicRaycaster>();
+        if (canvas.renderMode == RenderMode.WorldSpace && !canvas.GetComponent<TrackedDeviceGraphicRaycaster>())
+            canvas.gameObject.AddComponent<TrackedDeviceGraphicRaycaster>();
+        var rt = (RectTransform)canvas.transform;
+        if (!panels.Contains(rt)) panels.Add(rt);
+    }
+
+    // restart the scene: the landing page comes back and the morning starts fresh
+    public static void BackToMenu() =>
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+
     public static void EnsureEventSystem()
     {
         var es = UnityEngine.Object.FindAnyObjectByType<EventSystem>();

@@ -19,7 +19,7 @@ public class MiraHints : MonoBehaviour
     float greetUntil;
     string shown;
     [System.NonSerialized] string greetTitle, greetBody, endTitle, endBody;
-    [System.NonSerialized] Vector3 endSpot;
+    [System.NonSerialized] Vector3 endSpot, restSpot;
 
     void Start()
     {
@@ -39,7 +39,8 @@ public class MiraHints : MonoBehaviour
         greetTitle = "Good morning!";
         greetBody = t ? $"Today is {t.themeName}. {t.description}" : "Let's get ready.";
         greetUntil = Time.time + greetSeconds;
-        bubble.position = cam.transform.position + cam.transform.forward;
+        restSpot = SpotAhead(1.2f, 0.25f);        // picked once: it stays put instead of chasing your head
+        bubble.position = restSpot;
         bubble.gameObject.SetActive(true);
     }
 
@@ -47,8 +48,15 @@ public class MiraHints : MonoBehaviour
     {
         endTitle = hearts >= 5 ? "Five hearts!" : hearts >= 3 ? "Cute! You're ready." : "You made it!";
         endBody = "Your big reveal is right here.";
-        var f = cam.transform.forward; f.y = 0f; f.Normalize();
-        endSpot = cam.transform.position + f * ClearDistance(cam.transform.position, f, 1.1f) + Vector3.up * 0.62f;
+        endSpot = SpotAhead(1.1f, 0.62f);
+    }
+
+    Vector3 SpotAhead(float dist, float up)
+    {
+        var f = cam.transform.forward; f.y = 0f;
+        if (f.sqrMagnitude < 0.01f) f = Vector3.forward;
+        f.Normalize();
+        return cam.transform.position + f * ClearDistance(cam.transform.position, f, dist) + Vector3.up * up;
     }
 
     // how far ahead something can float before it ends up inside a wall
@@ -79,11 +87,12 @@ public class MiraHints : MonoBehaviour
             else if (step) Say($"MIRROR · STEP {i} OF {n}", step.StepName, step.Hint);
             target = step && step.station && !greeting
                 ? step.station.position + Vector3.up * heightAbove
-                : cam.transform.position + cam.transform.forward * 1.2f + Vector3.up * 0.25f;
+                : restSpot;
         }
-        if (!UIPrefs.GentleMotion) target += Vector3.up * Mathf.Sin(Time.time * 2f) * 0.02f;   // gentle bob
+        // moves only when the step changes, and never bobs (floating motion reads as drifting in VR)
         bubble.position = Vector3.Lerp(bubble.position, target, 1f - Mathf.Exp(-Time.deltaTime * 4f));
-        bubble.rotation = Quaternion.LookRotation(bubble.position - cam.transform.position);
+        var look = bubble.position - cam.transform.position; look.y = 0f;   // upright, turns only around its own axis
+        if (look.sqrMagnitude > 0.0001f) bubble.rotation = Quaternion.LookRotation(look);
     }
 
     // update the card only when the words change, and size it to fit them

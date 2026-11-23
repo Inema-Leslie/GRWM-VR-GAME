@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using static UIKit;
 
 // "The big reveal" at the end of the morning: your selfie as a polaroid, the glow score out of 100,
@@ -27,6 +26,7 @@ public class ScoreScreen : MonoBehaviour
         var fl = holder.gameObject.AddComponent<FloatInView>();
         fl.distance = 1.2f;
         fl.below = 0.12f;
+        fl.Snap();
         Box(p, "Card", 0f, 0f, W, H, Bg, 36f, Border, 2f);
 
         string theme = routine.theme ? routine.theme.themeName : "Today";
@@ -140,5 +140,5 @@ public class ScoreScreen : MonoBehaviour
         return ("Bold choice, babe", $"Not quite {theme}, but you\nwore it with confidence.");
     }
 
-    static void Restart() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    static void Restart() => UIKit.BackToMenu();
 }
